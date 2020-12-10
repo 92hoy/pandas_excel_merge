@@ -51,7 +51,7 @@ for set_excel_list, year in zip(set_excel, range(start_year, end_year)):
         d_f.columns = new_col_name
         pd_concat.append(d_f)
     kk = pd.concat(pd_concat, axis=1)
-    kk.to_excel('./result/'+'한강_' + str(year) + '.xlsx')
+    kk.to_excel('./result/'+'한강_' + str(year) + '.xlsx', index=False)
 
 # 연도 병합
 pd_concat = []
@@ -61,7 +61,7 @@ for equal_name_excel_list, year, name in zip(equal_name_excel, range(start_year,
         d_f = pd.read_excel(i)
         pd_concat.append(d_f)
     kk = pd.concat(pd_concat, axis=0)
-    kk.to_excel('./result/'+str(name[2]) + '_all.xlsx')
+    kk.to_excel('./result/'+str(name[2]) + '_all.xlsx', index=False)
 
 ########### use python / openpyxl ################
 # df = pd.read_excel("./location_data/AI_TEST_201104.xlsx", sheet_name='03_자동측정망')
