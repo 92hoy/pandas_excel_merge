@@ -7,7 +7,8 @@ import sys
 df = pd.read_excel("./location_data/AI_TEST_201104.xlsx", sheet_name='03_자동측정망')
 df1 = df['SN'] != 0
 # column sort
-df1 = df[df1].sort_values('SN')
+df1 = df[df1].sort_values('SN', ascending=False)
+
 h_list = []
 equal_name_excel = []
 tmp_excel = []
@@ -34,14 +35,18 @@ for year in range(start_year, end_year):
 # p = pd.concat([g_df, g_df1], axis=1)
 # print(p.head())
 
-## 한강 하류-> 상류 excel
-cnt = 0
-pd_concat = []
+# 한강 하류-> 상류 excel
+
 for set_excel_list, year in zip(set_excel, range(start_year, end_year)):
+    pd_concat = []
+    # print(set_excel_list)
+    cnt = 0
     for i in set_excel_list:
         print(i)
         cnt += 1
         d_f = pd.read_excel(i)
+        if cnt >1:
+            d_f.pop('date')
         # 변경할 컬럼이름 생성
         new_col_name = []
         for k in d_f.columns.values:
@@ -51,17 +56,16 @@ for set_excel_list, year in zip(set_excel, range(start_year, end_year)):
         d_f.columns = new_col_name
         pd_concat.append(d_f)
     kk = pd.concat(pd_concat, axis=1)
-    kk.to_excel('./result/'+'한강_' + str(year) + '.xlsx', index=False)
+    kk.to_excel('./result/' + '한강_' + str(year) + '.xlsx', index=False)
 
 # 연도 병합
-pd_concat = []
-for equal_name_excel_list, year, name in zip(equal_name_excel, range(start_year, end_year), df1.values):
-    for i in equal_name_excel_list:
-        print(i)
-        d_f = pd.read_excel(i)
-        pd_concat.append(d_f)
-    kk = pd.concat(pd_concat, axis=0)
-    kk.to_excel('./result/'+str(name[2]) + '_all.xlsx', index=False)
+# pd_concat = []
+# for equal_name_excel_list, year, name in zip(equal_name_excel, range(start_year, end_year), df1.values):
+#     for i in equal_name_excel_list:
+#         d_f = pd.read_excel(i)
+#         pd_concat.append(d_f)
+#     kk = pd.concat(pd_concat, axis=0)
+#     kk.to_excel('./result/' + str(name[2]) + '_all.xlsx', index=False)
 
 ########### use python / openpyxl ################
 # df = pd.read_excel("./location_data/AI_TEST_201104.xlsx", sheet_name='03_자동측정망')
